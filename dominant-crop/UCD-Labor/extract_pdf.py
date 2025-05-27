@@ -3,8 +3,11 @@ import re
 import pdfplumber
 import pandas as pd
 
+
 def extract_total_cultural_costs(pdf_filename, product):
     extracted_data = []
+    
+    #find this
     table_pattern = re.compile(
         r".*UC COOPERATIVE EXTENSION.*\n.*TABLE\s*\d+\.\s*COSTS PER ACRE\s*(.*)", 
         re.IGNORECASE
@@ -33,9 +36,9 @@ def extract_total_cultural_costs(pdf_filename, product):
                         region = third_line.replace(year, "").strip(" -,")
                     for line in lines:
                         
-                        if "TOTAL CULTURAL COSTS" in line:
-                            print(f"Page {page.page_number} matched TOTAL CULTURAL COSTS row")
-                            numbers_str = line.replace("TOTAL CULTURAL COSTS", "").strip()
+                        if "TOTAL OPERATING COSTS/ACRE" in line:
+                            print(f"Page {page.page_number} matched total opearating costs/acre row")
+                            numbers_str = line.replace("TOTAL OPERATING COSTS/ACRE", "").strip()
                             numbers_str = numbers_str.replace(",", "")
 
                             print(numbers_str)
@@ -74,4 +77,4 @@ for item in os.listdir('pdf-files'):
         
             df = pd.concat([df, curr], ignore_index=True)
             print(curr)
-            df.to_csv("UCD-data.csv")
+            df.to_csv("UCD-data2.csv")
